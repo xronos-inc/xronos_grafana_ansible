@@ -1,0 +1,3 @@
+---
+deployment: "xronos"
+grafana_path: "/opt/{{ deployment }}/grafana"

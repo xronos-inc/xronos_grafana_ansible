@@ -1,0 +1,16 @@
+apiVersion: 1
+
+datasources:
+  - name: "{{ deployment }} InfluxDB Flux"
+    type: influxdb
+    url: "{{ influxdb_url }}"
+    access: proxy
+    editable: true
+    isDefault: true
+    secureJsonData:
+      token: "{{ influxdb_token }}"
+    jsonData:
+      version: Flux
+      organization: "{{ deployment }}"
+      defaultBucket: dashboard
+      timeInterval: 10s
