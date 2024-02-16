@@ -50,12 +50,12 @@
   community.docker.docker_volume:
     name: "{{ deployment }}-grafana-data"
 
-- name: "Start docker container"
+- name: "Start docker container {{ deployment }}-grafana"
   community.docker.docker_container:
-    name: grafana
+    name: "{{ deployment }}-grafana"
     image: grafana/grafana:latest
     restart_policy: unless-stopped
-    hostname: grafana
+    hostname: "{{ deployment }}-grafana"
     ports:
       - "3000:3000"
     env_file: "{{ grafana_path }}/grafana.env"

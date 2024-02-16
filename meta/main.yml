@@ -1,7 +1,6 @@
 galaxy_info:
   role_name: xronos_grafana_ansible
   min_ansible_version: "2.15"
-  company: Xronos, Inc.
   author: Xronos, Inc.
   description: "Provision a server with Grafana for use with Xronos applications."
   license: proprietary
