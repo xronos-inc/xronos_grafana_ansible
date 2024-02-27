@@ -1,12 +1,12 @@
 # code: language=ansible
 ---
-- name: "Apt update cache"
+- name: Apt update cache
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600 # 1 hr
   become: true
 
-- name: "Create application directory {{ grafana_path }}"
+- name: Create application directory {{ grafana_path }}
   ansible.builtin.file:
     path: "{{ grafana_path }}"
     state: directory
@@ -15,7 +15,7 @@
     mode: 0755
   become: true
 
-- name: "Create provisioning directory {{ grafana_path }}/provisioning/datasources"
+- name: Create provisioning directory {{ grafana_path }}/provisioning/datasources
   ansible.builtin.file:
     path: "{{ grafana_path }}/provisioning/datasources"
     state: directory
@@ -24,29 +24,29 @@
     mode: 0755
   become: true
 
-- name: "Deploy grafana default dashboards"
+- name: Deploy grafana default dashboards
   ansible.builtin.copy:
-    src: "dashboards"
+    src: dashboards
     dest: "{{ grafana_path }}"
     force: false
 
-- name: "Deploy grafana default provisioning"
+- name: Deploy grafana default provisioning
   ansible.builtin.copy:
-    src: "provisioning"
+    src: provisioning
     dest: "{{ grafana_path }}"
     force: false
 
-- name: "Deploy grafana datasource configuration"
+- name: Deploy grafana datasource configuration
   ansible.builtin.template:
-    src: "influxdb.yml"
+    src: influxdb.yml
     dest: "{{ grafana_path }}/provisioning/datasources/influxdb.yml"
 
-- name: "Deploy grafana environment"
+- name: Deploy grafana environment
   ansible.builtin.template:
-    src:  "grafana.env"
+    src:  grafana.env
     dest: "{{ grafana_path }}/grafana.env"
 
-- name: "Docker volume create 'grafana-data'"
+- name: Docker volume create '{{ deployment }}-grafana-data'
   community.docker.docker_volume:
     name: "{{ deployment }}-grafana-data"
 
