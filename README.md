@@ -44,6 +44,7 @@ After running, the following services should be running:
 
 - `deployment` (= `xronos` ): The name of this deployment. Used to prefix filesystem and docker resources so that more than once instance of this service may coexist on the same host.
 - `grafana_path` (= `/opt/{{ deployment }}/grafana` ): The path to store grafana configuration.
+- `grafana_docker_network` (= `{{ deployment }}`): The docker network for the grafana instance.
 - `grafana_influxdb_url` (= `http://influxdb:8086`): The URL of the InfluxDB instance to query.
 - `grafana_influxdb_token`: The API token for InfluxDB
 - `grafana_admin_password`: The admin password for the Grafana web interface
