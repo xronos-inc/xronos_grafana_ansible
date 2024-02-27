@@ -1,3 +1,4 @@
 ---
 deployment: "xronos"
 grafana_path: "/opt/{{ deployment }}/grafana"
+grafana_docker_network: "{{ deployment }}"
