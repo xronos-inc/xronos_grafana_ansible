@@ -135,7 +135,7 @@
           "refId": "A"
         }
       ],
-      "title": "Panel Title",
+      "title": "Lag over time",
       "type": "timeseries"
     }
   ],
@@ -172,7 +172,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "LF Tracing",
+  "title": "LF Trace Data",
   "uid": "fdfdkxz8qjfnkf",
   "version": 2,
   "weekStart": ""
