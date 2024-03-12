@@ -72,6 +72,7 @@
       - "{{ grafana_path }}/provisioning/dashboards:/etc/grafana/provisioning/dashboards"
       - "{{ grafana_path }}/dashboards:/var/lib/grafana/dashboards"
       - "{{ grafana_path }}/dashboards/home.json:/usr/share/grafana/public/dashboards/home.json"
+      - "{{ grafana_path }}/dashboards/lf_trace.json:/usr/share/grafana/public/dashboards/lf_trace.json"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 10s
