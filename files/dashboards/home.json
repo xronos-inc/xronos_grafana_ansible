@@ -1,17 +1,40 @@
 {
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
   "editable": true,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 2,
   "links": [],
-  "liveNow": false,
+  "liveNow": true,
   "panels": [
     {
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 5,
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -22,24 +45,76 @@
               },
               {
                 "color": "red",
-                "value": 3.141592
+                "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
-        "w": 5,
-        "x": 1,
+        "h": 8,
+        "w": 7,
+        "x": 0,
         "y": 0
       },
-      "id": 3,
+      "id": 5,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 0,
+        "showHeader": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TraceRecord\")\n  |> filter(fn: (r) => r[\"_field\"] == \"process_id\")\n  |> group()\n  |> keep(columns: [\"process_name\", \"_value\"])\n  |> unique()\n  |> rename(columns: {_value: \"Process ID\", process_name: \"Process name\"})",
+          "refId": "A"
+        }
+      ],
+      "title": "Processes online",
+      "type": "table"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 7,
+        "y": 0
+      },
+      "id": 6,
       "options": {
         "colorMode": "value",
-        "graphMode": "none",
+        "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -53,14 +128,14 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.3.3",
+      "pluginVersion": "10.4.0",
       "targets": [
         {
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"example-monte-carlo-pi\")\n  |> filter(fn: (r) => r[\"_field\"] == \"estimate\" )\n  |> last()\n\n",
+          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TraceRecord\")\n  |> filter(fn: (r) => r[\"_field\"] == \"process_id\")\n  |> group()\n  |> keep(columns: [\"_value\"])\n  |> unique()\n  |> count()",
           "refId": "A"
         }
       ],
-      "title": "Pi",
+      "title": "Processes online",
       "type": "stat"
     },
     {
@@ -69,64 +144,65 @@
           "color": {
             "mode": "thresholds"
           },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
           "mappings": [],
-          "max": 1,
-          "min": -1,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "green",
-                "value": 0
+                "color": "red",
+                "value": 80
               }
             ]
-          },
-          "unit": "percent",
-          "unitScale": true
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
-        "w": 5,
-        "x": 6,
+        "h": 8,
+        "w": 9,
+        "x": 15,
         "y": 0
       },
-      "id": 4,
+      "id": 7,
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
           "fields": "",
-          "values": false
+          "reducer": [
+            "sum"
+          ],
+          "show": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "frameIndex": 1,
+        "showHeader": true
       },
-      "pluginVersion": "10.3.3",
+      "pluginVersion": "10.4.0",
       "targets": [
         {
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"example-monte-carlo-pi\")\n  |> filter(fn: (r) => r[\"_field\"] == \"error\" )\n  |> last()\n",
+          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TraceRecord\")\n  |> filter(fn: (r) => r[\"_field\"] == \"process_id\")\n  |> filter(fn: (r) => r[\"event_kind_description\"] == \"Reaction starts\")\n  |> group()\n  |> drop(columns: [\"host\", \"worker\", \"dst_id\", \"src_id\", \"_field\", \"_time\", \"process_name\", \"_measurement\"])\n  |> group(columns: [\"id_description\"])\n  |> count()\n  |> group()\n  |> sort(desc: true)\n  |> rename(columns: {id_description: \"Reactor\", _value: \"Reaction invocations\"})",
           "refId": "A"
         }
       ],
-      "title": "Error",
-      "type": "gauge"
+      "title": "Reaction invocations by reactor",
+      "type": "table"
     },
     {
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "custom": {
             "axisBorderShow": false,
@@ -146,21 +222,24 @@
             "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
-            "pointSize": 2,
+            "pointSize": 3,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "always",
             "spanNulls": false,
             "stacking": {
               "group": "A",
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "line"
+              "mode": "off"
             }
           },
+          "decimals": 2,
+          "fieldMinMax": false,
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -170,26 +249,53 @@
               },
               {
                 "color": "red",
-                "value": 3.141592
+                "value": 80
               }
             ]
           },
-          "unitScale": true
+          "unit": "sci"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "lag {dst_id=\"0\", event_kind_description=\"Reaction ends\", host=\"telegraf\", id_description=\"laggy\", process_name=\"trace\", worker=\"0\"}"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 14,
         "w": 24,
         "x": 0,
-        "y": 3
+        "y": 8
       },
       "id": 1,
-      "maxDataPoints": 1000,
+      "maxDataPoints": 100,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "max"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
@@ -200,11 +306,17 @@
       },
       "targets": [
         {
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"example-monte-carlo-pi\")\n  |> filter(fn: (r) => r[\"_field\"] == \"estimate\" )\n  |> yield(name: \"estimate\")\n",
+          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TraceRecord\")\n  |> filter(fn: (r) => r[\"_field\"] == \"lag\")\n  |> drop(columns: [\"host\"])",
           "refId": "A"
         }
       ],
-      "title": "Monte Carlo Pi Estimate",
+      "title": "Lag (nanoseconds)",
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {}
+        }
+      ],
       "transparent": true,
       "type": "timeseries"
     },
@@ -214,38 +326,7 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 2,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "line"
-            }
-          },
+          "decimals": 2,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -256,12 +337,11 @@
               },
               {
                 "color": "red",
-                "value": 0
+                "value": 80
               }
             ]
           },
-          "unit": "percent",
-          "unitScale": true
+          "unit": "sci"
         },
         "overrides": []
       },
@@ -269,31 +349,36 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 10
+        "y": 22
       },
       "id": 2,
-      "maxDataPoints": 1000,
       "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "max"
+          ],
+          "fields": "",
+          "values": false
         },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "text"
       },
+      "pluginVersion": "10.4.0",
       "targets": [
         {
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"example-monte-carlo-pi\")\n  |> filter(fn: (r) => r[\"_field\"] == \"error\" )\n  |> yield(name: \"estimate\")\n",
+          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TraceRecord\")\n  |> filter(fn: (r) => r[\"_field\"] == \"lag\")\n  |> filter(fn: (r) => r[\"id_description\"] != \"\")\n  |> drop(columns: [\"host\"])\n  |> group(columns: [\"id_description\"])\n  |> sort(columns: [\"_value\"], desc: true)\n  |> rename(columns: {_value: \"lag in\"})",
           "refId": "A"
         }
       ],
-      "title": "Monte Carlo Pi Estimate Error",
-      "transparent": true,
-      "type": "timeseries"
+      "title": "Max lag (nanoseconds) in the current time interval by reactor",
+      "type": "bargauge"
     }
   ],
   "refresh": "5s",
@@ -303,33 +388,23 @@
     "list": []
   },
   "time": {
-    "from": "now-30s",
+    "from": "now-1m",
     "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
+      "0s",
       "1s",
       "5s",
       "10s",
       "30s",
       "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "1h"
+      "5m"
     ]
   },
-  "timezone": "browser",
-  "title": "Xronos Dashboard",
-  "version": 0,
+  "timezone": "",
+  "title": "WIP",
+  "uid": "b98a429f-b146-4a54-9904-a36d07e8g11d",
+  "version": 1,
   "weekStart": ""
 }
