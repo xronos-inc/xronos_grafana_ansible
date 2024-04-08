@@ -5,8 +5,7 @@ Provision a host with Grafana configured for Xronos dashboards.
 This role performs the following steps:
 
 - Deploys a Grafana docker image
-- Deploys a grafana dashboard template to a remote host. The dashboard is pre-configured for the [xronos-inc/example-monte-carlo-pi](https://github.com/xronos-inc/example-monte-carlo-pi) example.
-- Deploys custom configuration and security tokens to the remote host
+- Deploys a grafana dashboard template to a remote host.
 
 ## Requirements
 
