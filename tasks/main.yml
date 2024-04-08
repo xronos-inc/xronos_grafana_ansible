@@ -15,26 +15,25 @@
     mode: 0755
   become: true
 
+- name: Create dashboards directory {{ grafana_path }}/dashboards
+  ansible.builtin.file:
+    path: "{{ grafana_path }}/dashboards"
+    state: directory
+
+- name: Create provisioning directory {{ grafana_path }}/provisioning/dashboards
+  ansible.builtin.file:
+    path: "{{ grafana_path }}/provisioning/dashboards"
+    state: directory
+
+- name: Deploy grafana default dashboard provisioning
+  ansible.builtin.copy:
+    src: provisioning/dashboards/main.yml
+    dest: "{{ grafana_path }}/provisioning/dashboards/"
+
 - name: Create provisioning directory {{ grafana_path }}/provisioning/datasources
   ansible.builtin.file:
     path: "{{ grafana_path }}/provisioning/datasources"
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: 0755
-  become: true
-
-- name: Deploy grafana default dashboards
-  ansible.builtin.copy:
-    src: dashboards
-    dest: "{{ grafana_path }}"
-    force: false
-
-- name: Deploy grafana default provisioning
-  ansible.builtin.copy:
-    src: provisioning
-    dest: "{{ grafana_path }}"
-    force: false
 
 - name: Deploy grafana datasource configuration
   ansible.builtin.template:
@@ -66,12 +65,13 @@
     ports:
       - "3000:3000"
     env_file: "{{ grafana_path }}/grafana.env"
+    comparisons:
+      "*": strict
     volumes:
       - "{{ deployment }}-grafana-data:/var/lib/grafana"
       - "{{ grafana_path }}/provisioning/datasources:/etc/grafana/provisioning/datasources"
       - "{{ grafana_path }}/provisioning/dashboards:/etc/grafana/provisioning/dashboards"
       - "{{ grafana_path }}/dashboards:/var/lib/grafana/dashboards"
-      - "{{ grafana_path }}/dashboards/home.json:/usr/share/grafana/public/dashboards/home.json"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 10s
