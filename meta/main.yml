@@ -1,9 +1,12 @@
+# SPDX-FileCopyrightText: © 2024 Xronos Inc.
+# SPDX-License-Identifier: BSD-3-Clause
+---
 galaxy_info:
   role_name: xronos_grafana_ansible
   min_ansible_version: "2.15"
-  author: Xronos, Inc.
+  company: Xronos Inc.
   description: "Provision a server with Grafana for use with Xronos applications."
-  license: proprietary
+  license: BSD-3-Clause
   platforms:
     - name: Ubuntu
       versions:
