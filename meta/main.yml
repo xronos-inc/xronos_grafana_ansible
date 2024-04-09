@@ -6,7 +6,7 @@ galaxy_info:
   min_ansible_version: "2.15"
   company: Xronos Inc.
   description: "Provision a server with Grafana for use with Xronos applications."
-  license: BSD-3
+  license: BSD-3-Clause
   platforms:
     - name: Ubuntu
       versions:
