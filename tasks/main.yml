@@ -22,6 +22,16 @@
     path: "{{ grafana_path }}/dashboards"
     state: directory
 
+- name: Deploy grafana default configuration
+  ansible.builtin.copy:
+    src: grafana.ini
+    dest: "{{ grafana_path }}/"
+
+- name: Deploy LF trace dashboard
+  ansible.builtin.copy:
+    src: dashboards/lf_trace.json
+    dest: "{{ grafana_path }}/dashboards/"
+
 - name: Create provisioning directory {{ grafana_path }}/provisioning/dashboards
   ansible.builtin.file:
     path: "{{ grafana_path }}/provisioning/dashboards"
@@ -71,6 +81,7 @@
       "*": strict
     volumes:
       - "{{ deployment }}-grafana-data:/var/lib/grafana"
+      - "{{ grafana_path }}/grafana.ini:/etc/grafana/grafana.ini:ro"
       - "{{ grafana_path }}/provisioning/datasources:/etc/grafana/provisioning/datasources"
       - "{{ grafana_path }}/provisioning/dashboards:/etc/grafana/provisioning/dashboards"
       - "{{ grafana_path }}/dashboards:/var/lib/grafana/dashboards"
