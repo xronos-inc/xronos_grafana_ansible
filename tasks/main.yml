@@ -1,21 +1,21 @@
-# SPDX-FileCopyrightText: © 2024 Xronos Inc.
+# SPDX-FileCopyrightText: (c) 2024 Xronos Inc.
 # SPDX-License-Identifier: BSD-3-Clause
 # code: language=ansible
 ---
 - name: Apt update cache
+  become: true
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600 # 1 hr
-  become: true
 
 - name: Create application directory {{ grafana_path }}
+  become: true
   ansible.builtin.file:
     path: "{{ grafana_path }}"
     state: directory
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: 0755
-  become: true
 
 - name: Create dashboards directory {{ grafana_path }}/dashboards
   ansible.builtin.file:
@@ -62,14 +62,20 @@
     name: "{{ deployment }}-grafana-data"
 
 - name: Docker network create '{{ grafana_docker_network }}'
+  when: grafana_docker_network != 'host'
   community.docker.docker_network:
     name: "{{ grafana_docker_network }}"
-  when: grafana_docker_network != 'host'
 
-- name: "Start docker container {{ deployment }}-grafana"
+- name: Docker pull grafana/grafana-enterprise:{{ grafana_version }}-ubuntu
+  community.docker.docker_image:
+    name: grafana/grafana-enterprise
+    tag: "{{ grafana_version }}-ubuntu"
+    source: pull
+
+- name: Start docker container {{ deployment }}-grafana
   community.docker.docker_container:
     name: "{{ deployment }}-grafana"
-    image: grafana/grafana:latest
+    image: grafana/grafana-enterprise:{{ grafana_version }}-ubuntu
     restart_policy: unless-stopped
     hostname: "{{ deployment }}-grafana"
     networks:

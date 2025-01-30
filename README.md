@@ -15,7 +15,7 @@ Provisioning host:
 
 Remote host:
 
-- Ubuntu 22.04 or later
+- Ubuntu 22.04 or 24.04
 - docker
 
 ## Example playbook
@@ -41,9 +41,10 @@ After running, the following services should be running:
 
 ## Variables
 
-- `deployment` (= `xronos` ): The name of this deployment. Used to prefix filesystem and docker resources so that more than once instance of this service may coexist on the same host.
-- `grafana_path` (= `/opt/{{ deployment }}/grafana` ): The path to store grafana configuration.
-- `grafana_docker_network` (= `{{ deployment }}`): The docker network for the grafana instance.
-- `grafana_influxdb_url` (= `http://influxdb:8086`): The URL of the InfluxDB instance to query.
+- `deployment`: The name of this deployment. Used to prefix filesystem and docker resources so that more than once instance of this service may coexist on the same host. Defaults to `xronos`.
+- `grafana_version`: The version of the grafana-enterprise image to install. Defaults to `latest`.
+- `grafana_path`: The path to store grafana configuration. Defaults to `/opt/{{ deployment }}/grafana`.
+- `grafana_docker_network`: The docker network for the grafana instance. Defaults to `{{ deployment }}`.
+- `grafana_influxdb_url`: The URL of the InfluxDB instance to query. Defaults to `http://influxdb:8086`.
 - `grafana_influxdb_token`: The API token for InfluxDB
 - `grafana_admin_password`: The admin password for the Grafana web interface

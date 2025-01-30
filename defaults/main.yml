@@ -1,6 +1,7 @@
-# SPDX-FileCopyrightText: © 2024 Xronos Inc.
+# SPDX-FileCopyrightText: (c) 2024 Xronos Inc.
 # SPDX-License-Identifier: BSD-3-Clause
 ---
 deployment: "xronos"
 grafana_path: "/opt/{{ deployment }}/grafana"
 grafana_docker_network: "{{ deployment }}"
+grafana_version: latest
